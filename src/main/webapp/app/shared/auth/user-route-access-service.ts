@@ -30,8 +30,25 @@ export class UserRouteAccessService implements CanActivate {
             if (!authorities || authorities.length === 0) {
                 return true;
             }
+            const roles: string[] = new Array();
+            for (const authority of authorities) {
+                if (authority.startsWith('ROLE_')) {
+                    roles.push(authority);
+                }
+            }
 
             if (account) {
+                // Check if authorities is a ROLE (with prefix) because
+                // authorityRoute of all generated entities check authorities 'ROLE_ADMIN'
+                // Improvement is to add 'roles' in data of authorityRoute and handle it here
+                if (roles && roles.length > 0) {
+                    return principal.hasAnyRole(roles).then((response) => {
+                        if (response) {
+                            return true;
+                        }
+                        return false;
+                    });
+                }
                 return principal.hasAnyAuthority(authorities).then((response) => {
                     if (response) {
                         return true;

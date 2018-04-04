@@ -24,13 +24,18 @@ export class Principal {
     }
 
     hasAnyAuthorityDirect(authorities: string[]): boolean {
-        if (!this.authenticated || !this.userIdentity || !this.userIdentity.authorities) {
+        if (!this.authenticated || !this.userIdentity || !this.userIdentity.roles || !this.userIdentity.roles[0].authorities) {
             return false;
         }
 
+        const roles = this.userIdentity.roles;
         for (let i = 0; i < authorities.length; i++) {
-            if (this.userIdentity.authorities.includes(authorities[i])) {
-                return true;
+            for (const role of roles) {
+                for (const auth of role.authorities) {
+                    if (auth.name === authorities[i]) {
+                        return true;
+                    }
+                }
             }
         }
 
@@ -43,10 +48,75 @@ export class Principal {
         }
 
         return this.identity().then((id) => {
-            return Promise.resolve(id.authorities && id.authorities.includes(authority));
+            return Promise.resolve(
+                id.authorities && this.resolveAuthority(id, authority));
         }, () => {
             return Promise.resolve(false);
         });
+    }
+
+    resolveAuthority(userIdentity: any, authority: any): boolean {
+        if (!userIdentity.roles[0].authorities) {
+            return false;
+        }
+
+        const roles = this.userIdentity.roles;
+        for (const role of roles){
+            for (const auth of role.authorities) {
+                if (auth.name === authority) {
+                    return true;
+                }
+            }
+        }
+        return false;
+    }
+
+    /* Roles */
+
+    hasAnyRole(roles: string[]): Promise<boolean> {
+        return Promise.resolve(this.hasAnyRoleDirect(roles));
+    }
+
+    hasAnyRoleDirect(roles: string[]): boolean {
+        if (!this.authenticated || !this.userIdentity || !this.userIdentity.roles) {
+            return false;
+        }
+
+        const userRoles = this.userIdentity.roles;
+        for (let i = 0; i < roles.length; i++) {
+            for (const r of userRoles){
+                if (r.name === roles[i]) {
+                    return true;
+                }
+            }
+        }
+
+        return false;
+    }
+
+    hasRole(role: string): Promise<boolean> {
+        if (!this.authenticated) {
+           return Promise.resolve(false);
+        }
+
+        return this.identity().then((id) => {
+            return Promise.resolve(id.roles && this.resolveAuthority(id, role));
+        }, () => {
+            return Promise.resolve(false);
+        });
+    }
+
+    resolveRole(userIdentity: any, role: any): boolean {
+        if (!userIdentity.roles) {
+            return false;
+        }
+        const userRoles = this.userIdentity.roles;
+            for (const r of userRoles) {
+                if (r.name === role) {
+                    return true;
+                }
+        }
+        return false;
     }
 
     identity(force?: boolean): Promise<any> {

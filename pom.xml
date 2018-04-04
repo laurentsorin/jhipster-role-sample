@@ -480,7 +480,7 @@
             </plugin>
             <plugin>
                 <groupId>org.liquibase</groupId>
-                <artifactId>liquibase-maven-plugin</artifactId>
+                <artifactId>@-maven-plugin</artifactId>
                 <version>${liquibase.version}</version>
                 <configuration>
                     <changeLogFile>src/main/resources/config/liquibase/master.xml</changeLogFile>

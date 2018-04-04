@@ -26,7 +26,7 @@ import javax.annotation.PostConstruct;
 
 @Configuration
 @Import(SecurityProblemSupport.class)
-@EnableWebSecurity
+@EnableWebSecurity()
 @EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 public class SecurityConfiguration extends WebSecurityConfigurerAdapter {
 

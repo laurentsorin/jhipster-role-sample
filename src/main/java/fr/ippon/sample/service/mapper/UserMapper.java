@@ -1,12 +1,15 @@
 package fr.ippon.sample.service.mapper;
 
 import fr.ippon.sample.domain.Authority;
+import fr.ippon.sample.domain.Role;
 import fr.ippon.sample.domain.User;
+import fr.ippon.sample.service.dto.RoleDTO;
 import fr.ippon.sample.service.dto.UserDTO;
-
 import org.springframework.stereotype.Service;
 
-import java.util.*;
+import java.util.List;
+import java.util.Objects;
+import java.util.Set;
 import java.util.stream.Collectors;
 
 /**
@@ -17,6 +20,8 @@ import java.util.stream.Collectors;
  */
 @Service
 public class UserMapper {
+
+    public RoleMapper roleMapper = new RoleMapper();
 
     public UserDTO userToUserDTO(User user) {
         return new UserDTO(user);
@@ -42,10 +47,17 @@ public class UserMapper {
             user.setImageUrl(userDTO.getImageUrl());
             user.setActivated(userDTO.isActivated());
             user.setLangKey(userDTO.getLangKey());
-            Set<Authority> authorities = this.authoritiesFromStrings(userDTO.getAuthorities());
-            if (authorities != null) {
-                user.setAuthorities(authorities);
-            }
+            user.setRoles(userDTO.getRoles().stream().map(RoleMapper::roleDTOtoRole).collect(Collectors.toSet()));
+            //Set<Authority> authorities = userDTO.getRoles().stream().map(RoleMapper::roleDTOtoRole).collect(Collectors.toSet());
+            //this.authoritiesFromStrings(userDTO.getAuthorities());
+            /*if (authorities != null) {
+                Set<Role> roles = new HashSet<>();
+                Role role = new Role();
+                role.setName(authorities.iterator().next().getName());
+                role.setAuthorities(authorities);
+                roles.add(role);
+                user.setRoles(roles);
+            }*/
             return user;
         }
     }
@@ -64,6 +76,13 @@ public class UserMapper {
         User user = new User();
         user.setId(id);
         return user;
+    }
+
+    public Set<Role> rolesFromRoleDTOs(Set<RoleDTO> roleDTOs){
+        return roleDTOs.stream()
+            .filter(Objects::nonNull)
+            .map(RoleMapper::roleDTOtoRole)
+            .collect(Collectors.toSet());
     }
 
     public Set<Authority> authoritiesFromStrings(Set<String> strings) {

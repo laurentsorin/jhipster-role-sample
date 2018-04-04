@@ -1,0 +1,32 @@
+
+<div *ngIf="authority">
+    <h2><span jhiTranslate="sampleApp.authority.detail.title">Authority</span> {{authority.id}}</h2>
+    <hr>
+    <jhi-alert-error></jhi-alert-error>
+    <dl class="row-md jh-entity-details">
+        <dt><span jhiTranslate="sampleApp.authority.name">Name</span></dt>
+        <dd>
+            <span>{{authority.name}}</span>
+        </dd>
+        <dt><span jhiTranslate="sampleApp.authority.roles">Roles</span></dt>
+        <dd>
+            <span *ngFor="let roles of authority.roles; let last = last">
+                <a [routerLink]="['/role', roles?.id ]">{{roles.name}}</a>{{last ? '' : ', '}}
+            </span>
+        </dd>
+    </dl>
+
+    <button type="submit"
+            (click)="previousState()"
+            class="btn btn-info">
+        <span class="fa fa-arrow-left"></span>&nbsp;<span jhiTranslate="entity.action.back"> Back</span>
+    </button>
+
+    <button type="button"
+            [routerLink]="['/', { outlets: { popup: 'authority/'+ authority.id + '/edit'} }]"
+            replaceUrl="true"
+            queryParamsHandling="merge"
+            class="btn btn-primary">
+        <span class="fa fa-pencil"></span>&nbsp;<span jhiTranslate="entity.action.edit"> Edit</span>
+    </button>
+</div>

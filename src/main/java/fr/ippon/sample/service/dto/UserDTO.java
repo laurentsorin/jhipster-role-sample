@@ -1,14 +1,13 @@
 package fr.ippon.sample.service.dto;
 
 import fr.ippon.sample.config.Constants;
-
-import fr.ippon.sample.domain.Authority;
 import fr.ippon.sample.domain.User;
-
+import fr.ippon.sample.service.mapper.RoleMapper;
 import org.hibernate.validator.constraints.Email;
 import org.hibernate.validator.constraints.NotBlank;
 
-import javax.validation.constraints.*;
+import javax.validation.constraints.Pattern;
+import javax.validation.constraints.Size;
 import java.time.Instant;
 import java.util.Set;
 import java.util.stream.Collectors;
@@ -51,7 +50,8 @@ public class UserDTO {
 
     private Instant lastModifiedDate;
 
-    private Set<String> authorities;
+    private Set<RoleDTO> roles;
+
 
     public UserDTO() {
         // Empty constructor needed for Jackson.
@@ -70,9 +70,7 @@ public class UserDTO {
         this.createdDate = user.getCreatedDate();
         this.lastModifiedBy = user.getLastModifiedBy();
         this.lastModifiedDate = user.getLastModifiedDate();
-        this.authorities = user.getAuthorities().stream()
-            .map(Authority::getName)
-            .collect(Collectors.toSet());
+        this.roles = user.getRoles().stream().map(RoleMapper::roleToRoleDTO).collect(Collectors.toSet());
     }
 
     public Long getId() {
@@ -171,12 +169,12 @@ public class UserDTO {
         this.lastModifiedDate = lastModifiedDate;
     }
 
-    public Set<String> getAuthorities() {
-        return authorities;
+    public Set<RoleDTO> getRoles() {
+        return roles;
     }
 
-    public void setAuthorities(Set<String> authorities) {
-        this.authorities = authorities;
+    public void setRoles(Set<RoleDTO> roles) {
+        this.roles = roles;
     }
 
     @Override
@@ -193,7 +191,6 @@ public class UserDTO {
             ", createdDate=" + createdDate +
             ", lastModifiedBy='" + lastModifiedBy + '\'' +
             ", lastModifiedDate=" + lastModifiedDate +
-            ", authorities=" + authorities +
             "}";
     }
 }

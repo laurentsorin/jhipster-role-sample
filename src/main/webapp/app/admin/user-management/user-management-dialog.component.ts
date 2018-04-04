@@ -16,6 +16,7 @@ export class UserMgmtDialogComponent implements OnInit {
     user: User;
     languages: any[];
     authorities: any[];
+    roles: any[];
     isSaving: Boolean;
 
     constructor(
@@ -28,8 +29,12 @@ export class UserMgmtDialogComponent implements OnInit {
     ngOnInit() {
         this.isSaving = false;
         this.authorities = [];
+        this.roles = [];
         this.userService.authorities().subscribe((authorities) => {
             this.authorities = authorities;
+        });
+        this.userService.roles().subscribe((roles) => {
+            this.roles = roles;
         });
         this.languageHelper.getAll().then((languages) => {
             this.languages = languages;
@@ -57,6 +62,17 @@ export class UserMgmtDialogComponent implements OnInit {
 
     private onSaveError() {
         this.isSaving = false;
+    }
+
+    getSelected(selectedVals: Array<any>, option: any) {
+        if (selectedVals) {
+            for (let i = 0; i < selectedVals.length; i++) {
+                if (option.id === selectedVals[i].id) {
+                    return selectedVals[i];
+                }
+            }
+        }
+        return option;
     }
 }
 

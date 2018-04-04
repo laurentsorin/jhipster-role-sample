@@ -37,4 +37,8 @@ export class UserService {
         return this.http.get<string[]>(SERVER_API_URL + 'api/users/authorities');
     }
 
+    roles(): Observable<string[]> {
+        return this.http.get<string[]>(SERVER_API_URL + 'api/users/roles');
+    }
+
 }

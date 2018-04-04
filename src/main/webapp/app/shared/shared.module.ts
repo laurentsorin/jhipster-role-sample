@@ -14,6 +14,7 @@ import {
     JhiLoginModalComponent,
     Principal,
     HasAnyAuthorityDirective,
+    HasAnyRoleDirective,
 } from './';
 
 @NgModule({
@@ -23,7 +24,8 @@ import {
     ],
     declarations: [
         JhiLoginModalComponent,
-        HasAnyAuthorityDirective
+        HasAnyAuthorityDirective,
+        HasAnyRoleDirective
     ],
     providers: [
         LoginService,
@@ -41,6 +43,7 @@ import {
         SampleSharedCommonModule,
         JhiLoginModalComponent,
         HasAnyAuthorityDirective,
+        HasAnyRoleDirective,
         DatePipe
     ],
     schemas: [CUSTOM_ELEMENTS_SCHEMA]

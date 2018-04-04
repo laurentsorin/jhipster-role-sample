@@ -1,10 +1,11 @@
 package fr.ippon.sample.web.rest;
 
-import fr.ippon.sample.config.Constants;
 import com.codahale.metrics.annotation.Timed;
+import fr.ippon.sample.config.Constants;
+import fr.ippon.sample.domain.Role;
 import fr.ippon.sample.domain.User;
 import fr.ippon.sample.repository.UserRepository;
-import fr.ippon.sample.security.AuthoritiesConstants;
+import fr.ippon.sample.security.RolesConstants;
 import fr.ippon.sample.service.MailService;
 import fr.ippon.sample.service.UserService;
 import fr.ippon.sample.service.dto.UserDTO;
@@ -14,7 +15,6 @@ import fr.ippon.sample.web.rest.errors.LoginAlreadyUsedException;
 import fr.ippon.sample.web.rest.util.HeaderUtil;
 import fr.ippon.sample.web.rest.util.PaginationUtil;
 import io.github.jhipster.web.util.ResponseUtil;
-
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.data.domain.Page;
@@ -28,7 +28,8 @@ import org.springframework.web.bind.annotation.*;
 import javax.validation.Valid;
 import java.net.URI;
 import java.net.URISyntaxException;
-import java.util.*;
+import java.util.List;
+import java.util.Optional;
 
 /**
  * REST controller for managing users.
@@ -87,7 +88,7 @@ public class UserResource {
      */
     @PostMapping("/users")
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured(RolesConstants.ADMIN)
     public ResponseEntity<User> createUser(@Valid @RequestBody UserDTO userDTO) throws URISyntaxException {
         log.debug("REST request to save User : {}", userDTO);
 
@@ -117,7 +118,7 @@ public class UserResource {
      */
     @PutMapping("/users")
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured(RolesConstants.ADMIN)
     public ResponseEntity<UserDTO> updateUser(@Valid @RequestBody UserDTO userDTO) {
         log.debug("REST request to update User : {}", userDTO);
         Optional<User> existingUser = userRepository.findOneByEmailIgnoreCase(userDTO.getEmail());
@@ -153,9 +154,19 @@ public class UserResource {
      */
     @GetMapping("/users/authorities")
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured(RolesConstants.ADMIN)
     public List<String> getAuthorities() {
         return userService.getAuthorities();
+    }
+
+    /**
+     * @return a string list of the all of the roles
+     */
+    @GetMapping("/users/roles")
+    @Timed
+    @Secured(RolesConstants.ADMIN)
+    public List<Role> getRoles() {
+        return userService.getRoles();
     }
 
     /**
@@ -181,7 +192,7 @@ public class UserResource {
      */
     @DeleteMapping("/users/{login:" + Constants.LOGIN_REGEX + "}")
     @Timed
-    @Secured(AuthoritiesConstants.ADMIN)
+    @Secured(RolesConstants.ADMIN)
     public ResponseEntity<Void> deleteUser(@PathVariable String login) {
         log.debug("REST request to delete User: {}", login);
         userService.deleteUser(login);
