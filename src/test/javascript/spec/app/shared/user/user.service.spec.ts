@@ -51,11 +51,11 @@ describe('Service Tests', () => {
             it('should return Authorities', () => {
 
                 service.authorities().subscribe((_authorities) => {
-                    expect(_authorities).toEqual(['ROLE_USER', 'ROLE_ADMIN']);
+                    expect(_authorities).toEqual(['USER', 'ADMIN']);
                 });
                 const req = httpMock.expectOne({ method: 'GET' });
 
-                req.flush(['ROLE_USER', 'ROLE_ADMIN']);
+                req.flush(['USER', 'ADMIN']);
             });
 
             it('should propagate not found response', () => {
