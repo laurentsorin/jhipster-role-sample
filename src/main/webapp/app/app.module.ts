@@ -15,7 +15,6 @@ import { SampleAppRoutingModule} from './app-routing.module';
 import { SampleHomeModule } from './home/home.module';
 import { SampleAdminModule } from './admin/admin.module';
 import { SampleAccountModule } from './account/account.module';
-import { SampleEntityModule } from './entities/entity.module';
 import { PaginationConfig } from './blocks/config/uib-pagination.config';
 // jhipster-needle-angular-add-module-import JHipster will add new module here
 import {
@@ -37,7 +36,6 @@ import {
         SampleHomeModule,
         SampleAdminModule,
         SampleAccountModule,
-        SampleEntityModule,
         // jhipster-needle-angular-add-module JHipster will add new module here
     ],
     declarations: [

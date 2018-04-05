@@ -7,8 +7,6 @@
             "jhipster-needle-menu-add-element": "JHipster will add additional menu entries here (do not translate!)",
             "entities": {
                 "main": "Entities",
-                "role": "Role",
-                "authority": "Authority",
                 "jhipster-needle-menu-add-entry": "JHipster will add additional entities here (do not translate!)"
             },
             "account": {
@@ -23,6 +21,8 @@
             "admin": {
                 "main": "Administration",
                 "userManagement": "User management",
+                "roles": "Roles",
+                "authorities": "Authorities",
                 "tracker": "User tracker",
                 "metrics": "Metrics",
                 "health": "Health",

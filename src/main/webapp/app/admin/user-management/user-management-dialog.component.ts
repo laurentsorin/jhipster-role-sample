@@ -6,6 +6,7 @@ import { JhiEventManager } from 'ng-jhipster';
 
 import { UserModalService } from './user-modal.service';
 import { JhiLanguageHelper, User, UserService } from '../../shared';
+import { Role } from '../role/role.model';
 
 @Component({
     selector: 'jhi-user-mgmt-dialog',
@@ -73,6 +74,10 @@ export class UserMgmtDialogComponent implements OnInit {
             }
         }
         return option;
+    }
+
+    trackRoleById(index, item: Role) {
+        return item.id;
     }
 }
 

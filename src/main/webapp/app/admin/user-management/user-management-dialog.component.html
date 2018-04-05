@@ -107,7 +107,7 @@
         </div>
         <div class="form-group">
             <label jhiTranslate="userManagement.roles">Roles</label>
-            <select class="form-control" multiple name="authority" [(ngModel)]="user.roles">
+            <select class="form-control" multiple name="roles" [(ngModel)]="user.roles">
                 <option [ngValue]="getSelected(user.roles, roleOption)" *ngFor="let roleOption of roles; trackBy: trackRoleById">{{roleOption.name}}</option>
             </select>
         </div>

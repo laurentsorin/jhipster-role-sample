@@ -1,6 +1,8 @@
 import { NgModule, CUSTOM_ELEMENTS_SCHEMA } from '@angular/core';
 import { RouterModule } from '@angular/router';
 
+import { RoleModule } from './role/role.module';
+import { AuthorityModule } from './authority/authority.module';
 import { SampleSharedModule } from '../shared';
 /* jhipster-needle-add-admin-module-import - JHipster will add admin modules imports here */
 
@@ -27,13 +29,15 @@ import {
     LogsService,
     UserResolvePagingParams,
     UserResolve,
-    UserModalService
+    UserModalService,
 } from './';
 
 @NgModule({
     imports: [
         SampleSharedModule,
         RouterModule.forChild(adminState),
+        RoleModule,
+        AuthorityModule,
         /* jhipster-needle-add-admin-module - JHipster will add admin modules here */
     ],
     declarations: [
@@ -50,7 +54,7 @@ import {
         JhiHealthModalComponent,
         JhiDocsComponent,
         JhiMetricsMonitoringComponent,
-        JhiMetricsMonitoringModalComponent
+        JhiMetricsMonitoringModalComponent,
     ],
     entryComponents: [
         UserMgmtDialogComponent,
